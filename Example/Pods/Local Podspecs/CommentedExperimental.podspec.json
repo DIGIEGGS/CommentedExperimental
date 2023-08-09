@@ -1,0 +1,22 @@
+{
+  "name": "CommentedExperimental",
+  "version": "0.1.0",
+  "summary": "A short description of CommentedExperimental.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/81802412/CommentedExperimental",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "81802412": "canugurgedik@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/81802412/CommentedExperimental.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "10.0"
+  },
+  "source_files": "CommentedExperimental/Classes/**/*"
+}

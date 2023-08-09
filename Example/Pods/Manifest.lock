@@ -1,0 +1,16 @@
+PODS:
+  - CommentedExperimental (0.1.0)
+
+DEPENDENCIES:
+  - CommentedExperimental (from `../`)
+
+EXTERNAL SOURCES:
+  CommentedExperimental:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  CommentedExperimental: e360bbbe742ec958fe03063acf6200b0b6bc1541
+
+PODFILE CHECKSUM: e85ce72e2d12a1631ea963fdd9f59d947255b7b0
+
+COCOAPODS: 1.12.1

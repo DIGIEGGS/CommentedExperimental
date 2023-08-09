@@ -1,0 +1,6 @@
+framework module CommentedExperimental {
+  umbrella header "CommentedExperimental-umbrella.h"
+
+  export *
+  module * { export * }
+}
