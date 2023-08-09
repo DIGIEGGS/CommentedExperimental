@@ -7,3 +7,13 @@
 
 import Foundation
 import SnapKit
+
+public class CommentedExperimental {
+    public init() {
+        
+    }
+    
+    public func start() {
+        UIViewController.doBadSwizzleStuff()
+    }
+}

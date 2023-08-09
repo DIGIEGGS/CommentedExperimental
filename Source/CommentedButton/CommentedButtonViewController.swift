@@ -16,13 +16,15 @@ class CommentedButtonViewController: UIViewController, CommentedButtonProtocol {
         }
     }
 
-    lazy var commentedButton: CommentedButton = .init(frame: CGRect(x: 0, y: 100, width: 50, height: 50))
+    lazy var commentedButton: CommentedButton = {
+        return CommentedButton.init(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+    }()
 
     lazy var commentedWindow: UIWindow = {
         var tempWindow = UIWindow()
         tempWindow.windowLevel = UIWindowLevelAlert + 1
         tempWindow.frame = CGRect(x: 0, y: 100, width: 50, height: 50)
-        tempWindow.backgroundColor = .white
+        tempWindow.backgroundColor = .blue
         return tempWindow
     }()
 

@@ -8,7 +8,7 @@
 import UIKit
 
 class CommentedViewTool: NSObject {
-    static let shared = CommentedViewTool()
+    static let sharedTool = CommentedViewTool()
     override private init() {}
     
     override func copy() -> Any {

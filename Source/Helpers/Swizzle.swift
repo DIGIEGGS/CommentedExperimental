@@ -7,7 +7,7 @@
 //
 
 import UIKit
-// import Commented
+//import Commented
 
 private func swizzle(_ viewController: UIViewController.Type) {
     let swizzlers = [(#selector(viewController.viewDidAppear(_:)), #selector(viewController.devCheck_viewDidAppear(_:)))]
@@ -53,12 +53,12 @@ extension UIViewController {
         print(self)
         let isAppsVC = !(self is CommentedButtonViewController)
         if isAppsVC {
-            let commentedView = CommentedViewTool.shared
-            commentedView.createCommentedView(parent: self) {
+            let floatView = CommentedViewTool.sharedTool
+            floatView.createCommentedView(parent: self) {
                 openCommentedViewControllerWithImage(parent: self) { image in
                     openCommentedViewController(parent: self, image: image)
                 }
-            }
+            } 
         }
     }
 }
