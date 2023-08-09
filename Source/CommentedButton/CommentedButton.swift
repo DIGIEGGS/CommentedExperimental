@@ -44,12 +44,18 @@ class CommentedButton: UIView {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touch = touches.first
-        let currentLocation: CGPoint = (touch?.location(in: self.backGroundView))!
-        if currentLocation.x <= 25 || currentLocation.x > UIScreen.main.bounds.size.width - 25 || currentLocation.y <= 25 || currentLocation.y >= UIScreen.main.bounds.size.height - 25 {
+        guard let touch = touches.first else {
             return
         }
-        self.superview!.center = currentLocation
+        let currentLocation = touch.location(in: self.backGroundView)
+        let yValue = ViewControllerStateHelper.shared.getViewControllerState() ? currentLocation.y + (UIScreen.main.bounds.height - backGroundView.frame.height) : currentLocation.y
+        print(ViewControllerStateHelper.shared.getViewControllerState())
+        let newLocation = CGPoint(x: currentLocation.x, y: yValue)
+        if newLocation.x <= 25 || newLocation.x > UIScreen.main.bounds.size.width - 25 ||
+            newLocation.y <= 25 || newLocation.y >= UIScreen.main.bounds.size.height - 25 {
+            return
+        }
+        self.superview!.center = newLocation
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -60,7 +66,6 @@ class CommentedButton: UIView {
                 delegate.commentedButtonPressed()
             }
         }
-        self.adjustPosition(CurrentPosition: currentLocation)
     }
     
     private func adjustPosition(CurrentPosition currentPosition: CGPoint) {
@@ -79,7 +84,6 @@ class CommentedButton: UIView {
         } else if bottomDistance < miniDistance {
             director = CommentedButtonPosition.Bottom
         }
-        
         switch director {
         case .Left:
             UIView.animate(withDuration: 0.25) {

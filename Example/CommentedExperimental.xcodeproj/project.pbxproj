@@ -14,6 +14,7 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		A13E9B2F2A83AE7200A905F4 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13E9B2E2A83AE7200A905F4 /* SecondViewController.swift */; };
 		E835F56A77D8FF219DB89C38 /* Pods_CommentedExperimental_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C717746C2B6191026FC09A /* Pods_CommentedExperimental_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +41,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		8D5F9139B531F2F58006CFDD /* Pods-CommentedExperimental_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CommentedExperimental_Example.debug.xcconfig"; path = "Target Support Files/Pods-CommentedExperimental_Example/Pods-CommentedExperimental_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		A13E9B2E2A83AE7200A905F4 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		AA8D3E39EF2A599B055BF96D /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		C2E8E5EE7A758A0C0DF8DC9D /* CommentedExperimental.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = CommentedExperimental.podspec; path = ../CommentedExperimental.podspec; sourceTree = "<group>"; };
 		D30ED9FA55DB37BCEA640984 /* Pods_CommentedExperimental_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CommentedExperimental_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +95,7 @@
 		607FACD21AFB9204008FA782 /* Example for CommentedExperimental */ = {
 			isa = PBXGroup;
 			children = (
+				A13E9B2E2A83AE7200A905F4 /* SecondViewController.swift */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
@@ -335,6 +338,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A13E9B2F2A83AE7200A905F4 /* SecondViewController.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
