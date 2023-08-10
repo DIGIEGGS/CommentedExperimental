@@ -29,6 +29,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '12.0'
 
   s.source_files = 'Source/**/*'
+  s.swift_versions = ['5.0', '5.1']
   
   # s.resource_bundles = {
   #   'CommentedExperimental' => ['CommentedExperimental/Assets/*.png']
