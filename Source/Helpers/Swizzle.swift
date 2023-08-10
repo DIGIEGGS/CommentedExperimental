@@ -9,7 +9,12 @@
 import UIKit
 
 private func swizzle(_ viewController: UIViewController.Type) {
-    let swizzlers = [(#selector(viewController.viewDidAppear(_:)), #selector(viewController.devCheck_viewDidAppear(_:)))]
+    let swizzlers = [
+        (#selector(viewController.viewDidAppear(_:)),
+         #selector(viewController.devCheck_viewDidAppear(_:))),
+        (#selector(viewController.viewDidDisappear(_:)),
+         #selector(viewController.devCheck_viewWillDisappear(_:)))
+    ]
 
     for (original, swizzled) in swizzlers {
         guard let originalMethod = class_getInstanceMethod(viewController, original),
@@ -28,19 +33,40 @@ private func swizzle(_ viewController: UIViewController.Type) {
 }
 
 private var hasSwizzled = false
+private var commentedParents: [UIViewController] = []
 
-private func openCommentedViewControllerWithImage(parent: UIViewController, completion: (UIImage) -> ()) {
-    let image = parent.view.takeScreenshot()
+private func openCommentedViewControllerWithImage(completion: (UIImage?) -> ()) {
+    let parent = commentedParents.last
+    let image = parent?.view.takeScreenshot()
     completion(image)
 }
 
-private func openCommentedViewController(parent: UIViewController, image: UIImage) {
+private func openCommentedViewController(image: UIImage?) {
+    let parent = commentedParents.last
     let vc = CommentedViewController(image: image)
     vc.modalPresentationStyle = .fullScreen
-    parent.present(vc, animated: true)
+    parent?.present(vc, animated: true)
+}
+
+private let appName: String = (Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String)!
+
+private func addToCommentedParent(parent: UIViewController) {
+    if parent.debugDescription.contains(appName) {
+        commentedParents.append(parent)
+    }
+}
+
+private func removeFromCommentedParent(parent: UIViewController) {
+    if let index = commentedParents.firstIndex(of: parent) {
+        commentedParents.remove(at: index)
+    }
 }
 
 extension UIViewController {
+    var commentedExperimental: CommentedExperimental {
+        return CommentedExperimental()
+    }
+
     var isPresented: Bool {
         if let nav = self.navigationController, nav.viewControllers.isEmpty || self == nav.viewControllers.first {
             return false
@@ -56,39 +82,34 @@ extension UIViewController {
         }
         return false
     }
-    
+
     public final class func doBadSwizzleStuff() {
         guard !hasSwizzled else { return }
         hasSwizzled = true
         swizzle(self)
     }
-    
-    public static func swizzleDismiss() {
-        let originalSelector = #selector(UIViewController.dismiss(animated:completion:))
-        let swizzledSelector = #selector(UIViewController.custom_dismiss(animated:completion:))
-        
-        let originalMethod = class_getInstanceMethod(UIViewController.self, originalSelector)!
-        let swizzledMethod = class_getInstanceMethod(UIViewController.self, swizzledSelector)!
-        
-        method_exchangeImplementations(originalMethod, swizzledMethod)
-    }
-    
-    @objc func custom_dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
-        self.custom_dismiss(animated: flag, completion: completion)
-        ViewControllerStateHelper.shared.setViewControllerState(isPresented: false)
-    }
-    
+
     @objc internal func devCheck_viewDidAppear(_ animated: Bool) {
         self.devCheck_viewDidAppear(animated)
         ViewControllerStateHelper.shared.setViewControllerState(isPresented: self.isPresented)
         let isAppsVC = !(self is CommentedButtonViewController)
         if isAppsVC {
+            addToCommentedParent(parent: self)
             let floatView = CommentedViewTool.sharedTool
             floatView.createCommentedView(parent: self) {
-                openCommentedViewControllerWithImage(parent: self) { image in
-                    openCommentedViewController(parent: self, image: image)
+                openCommentedViewControllerWithImage() { image in
+                    openCommentedViewController(image: image)
                 }
             }
+        }
+    }
+
+    @objc internal func devCheck_viewWillDisappear(_ animated: Bool) {
+        self.devCheck_viewWillDisappear(animated)
+        let isAppsVC = !(self is CommentedButtonViewController)
+        if isAppsVC {
+            ViewControllerStateHelper.shared.setViewControllerState(isPresented: false)
+            removeFromCommentedParent(parent: self)
         }
     }
 }
@@ -97,14 +118,14 @@ extension UIView {
     func takeScreenshot() -> UIImage {
         // Begin context
         UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, UIScreen.main.scale)
-        
+
         // Draw view in that context
         drawHierarchy(in: self.bounds, afterScreenUpdates: true)
-        
+
         // And finally, get image
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
+
         if image != nil {
             return image!
         }

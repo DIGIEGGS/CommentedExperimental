@@ -25,7 +25,7 @@ class CommentedViewController: UIViewController {
         return button
     }()
     
-    init(image: UIImage) {
+    init(image: UIImage?) {
         super.init(nibName: nil, bundle: nil)
         self.imageView.image = image
     }

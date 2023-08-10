@@ -8,12 +8,9 @@
 import Foundation
 
 class ViewControllerStateHelper {
-
     static let shared = ViewControllerStateHelper()
     
-    private init() {
-        UIViewController.swizzleDismiss()
-    }
+    private init() {}
     
     private let defaults = UserDefaults.standard
     private let viewControllerPresentedKey = "ViewControllerIsPresentedKey"

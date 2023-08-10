@@ -49,7 +49,6 @@ class CommentedButton: UIView {
         }
         let currentLocation = touch.location(in: self.backGroundView)
         let yValue = ViewControllerStateHelper.shared.getViewControllerState() ? currentLocation.y + (UIScreen.main.bounds.height - backGroundView.frame.height) : currentLocation.y
-        print(ViewControllerStateHelper.shared.getViewControllerState())
         let newLocation = CGPoint(x: currentLocation.x, y: yValue)
         if newLocation.x <= 25 || newLocation.x > UIScreen.main.bounds.size.width - 25 ||
             newLocation.y <= 25 || newLocation.y >= UIScreen.main.bounds.size.height - 25 {
@@ -66,6 +65,7 @@ class CommentedButton: UIView {
                 delegate.commentedButtonPressed()
             }
         }
+        adjustPosition(CurrentPosition: currentLocation)
     }
     
     private func adjustPosition(CurrentPosition currentPosition: CGPoint) {
