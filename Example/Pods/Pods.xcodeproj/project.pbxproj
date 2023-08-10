@@ -38,6 +38,7 @@
 		7E28D519D954A8194B2C3C3937A7E5DF /* Debugging.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CBE69DD3B611E4180FCBDD8CDE8814 /* Debugging.swift */; };
 		925A8DA82EEFD9003DA9BEDD3958E696 /* ConstraintMakerFinalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412D51A2BEEF78C262C4B3F3798D1702 /* ConstraintMakerFinalizable.swift */; };
 		9BAB53831618A516703C6BF9DCBE13D1 /* ConstraintMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4B3092297166519217A25AD70D5341 /* ConstraintMaker.swift */; };
+		A13E9B312A83CB5A00A905F4 /* ViewControllerStateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13E9B302A83CB5A00A905F4 /* ViewControllerStateHelper.swift */; };
 		A1CBE94590613DAC112D34CE277DED2A /* ConstraintLayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55D2A11C17BBCE3C9F7F0BA9555B5AE /* ConstraintLayoutGuide.swift */; };
 		AD612B1C2A838A8E00567DCA /* CommentedViewTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD612B192A838A8E00567DCA /* CommentedViewTool.swift */; };
 		AD612B1D2A838A8E00567DCA /* CommentedButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD612B1A2A838A8E00567DCA /* CommentedButtonViewController.swift */; };
@@ -146,6 +147,7 @@
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9E698E2509BDB769D45E9CCD4AEA9CFA /* Pods-CommentedExperimental_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-CommentedExperimental_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		9F0A527ED8F0A719FF610D743A87DAD3 /* ConstraintMakerPrioritizable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMakerPrioritizable.swift; path = Sources/ConstraintMakerPrioritizable.swift; sourceTree = "<group>"; };
+		A13E9B302A83CB5A00A905F4 /* ViewControllerStateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerStateHelper.swift; sourceTree = "<group>"; };
 		A1D120696AE9046A0CAD0BE3D91C160F /* Pods-CommentedExperimental_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-CommentedExperimental_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		AD612B192A838A8E00567DCA /* CommentedViewTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentedViewTool.swift; sourceTree = "<group>"; };
 		AD612B1A2A838A8E00567DCA /* CommentedButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentedButtonViewController.swift; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 			isa = PBXGroup;
 			children = (
 				AD612B202A838AAD00567DCA /* Swizzle.swift */,
+				A13E9B302A83CB5A00A905F4 /* ViewControllerStateHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -621,6 +624,7 @@
 			files = (
 				AD612B212A838AAD00567DCA /* Swizzle.swift in Sources */,
 				AD612B1C2A838A8E00567DCA /* CommentedViewTool.swift in Sources */,
+				A13E9B312A83CB5A00A905F4 /* ViewControllerStateHelper.swift in Sources */,
 				AD612B1D2A838A8E00567DCA /* CommentedButtonViewController.swift in Sources */,
 				AD612B232A838AC300567DCA /* CommentedViewController.swift in Sources */,
 				AD612B1E2A838A8E00567DCA /* CommentedButton.swift in Sources */,

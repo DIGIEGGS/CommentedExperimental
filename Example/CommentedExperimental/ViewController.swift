@@ -9,17 +9,31 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    private lazy var secondVCButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        button.backgroundColor = .yellow
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .red
-        // Do any additional setup after loading the view, typically from a nib.
+        view.addSubview(secondVCButton)
+        layout()
+    }
+    
+    @objc private func didTapButton() {
+        let secondVC = SecondViewController()
+        present(secondVC, animated: true)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func layout() {
+        secondVCButton.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+            make.size.equalTo(100)
+        }
     }
-
 }
 

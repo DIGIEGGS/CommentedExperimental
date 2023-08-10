@@ -7,10 +7,14 @@
 //
 
 import UIKit
-//import Commented
 
 private func swizzle(_ viewController: UIViewController.Type) {
-    let swizzlers = [(#selector(viewController.viewDidAppear(_:)), #selector(viewController.devCheck_viewDidAppear(_:)))]
+    let swizzlers = [
+        (#selector(viewController.viewDidAppear(_:)),
+         #selector(viewController.devCheck_viewDidAppear(_:))),
+        (#selector(viewController.viewDidDisappear(_:)),
+         #selector(viewController.devCheck_viewDidDisappear(_:)))
+    ]
 
     for (original, swizzled) in swizzlers {
         guard let originalMethod = class_getInstanceMethod(viewController, original),
@@ -29,19 +33,56 @@ private func swizzle(_ viewController: UIViewController.Type) {
 }
 
 private var hasSwizzled = false
+private var commentedParents: [UIViewController] = []
 
-private func openCommentedViewControllerWithImage(parent: UIViewController, completion: (UIImage) -> ()) {
-    let image = parent.view.takeScreenshot()
+private func openCommentedViewControllerWithImage(completion: (UIImage?) -> ()) {
+    let parent = commentedParents.last
+    let image = parent?.view.takeScreenshot()
     completion(image)
 }
 
-private func openCommentedViewController(parent: UIViewController, image: UIImage) {
+private func openCommentedViewController(image: UIImage?) {
+    let parent = commentedParents.last
     let vc = CommentedViewController(image: image)
     vc.modalPresentationStyle = .fullScreen
-    parent.present(vc, animated: true)
+    parent?.present(vc, animated: true)
+}
+
+private let appName: String = (Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String)!
+
+private func addToCommentedParent(parent: UIViewController) {
+    if parent.debugDescription.contains(appName) {
+        commentedParents.append(parent)
+    }
+}
+
+private func removeFromCommentedParent(parent: UIViewController) {
+    if let index = commentedParents.firstIndex(of: parent) {
+        commentedParents.remove(at: index)
+    }
 }
 
 extension UIViewController {
+    var commentedExperimental: CommentedExperimental {
+        return CommentedExperimental()
+    }
+
+    var isPresented: Bool {
+        if let nav = self.navigationController, nav.viewControllers.isEmpty || self == nav.viewControllers.first {
+            return false
+        }
+        if self.presentingViewController != nil {
+            return true
+        }
+        if let nav = self.navigationController, nav.presentingViewController?.presentedViewController == nav {
+            return true
+        }
+        if self.tabBarController?.presentingViewController is UITabBarController {
+            return true
+        }
+        return false
+    }
+
     public final class func doBadSwizzleStuff() {
         guard !hasSwizzled else { return }
         hasSwizzled = true
@@ -50,15 +91,26 @@ extension UIViewController {
 
     @objc internal func devCheck_viewDidAppear(_ animated: Bool) {
         self.devCheck_viewDidAppear(animated)
-        print(self)
-        let isAppsVC = !(self is CommentedButtonViewController)
-        if isAppsVC {
-            let floatView = CommentedViewTool.sharedTool
-            floatView.createCommentedView(parent: self) {
-                openCommentedViewControllerWithImage(parent: self) { image in
-                    openCommentedViewController(parent: self, image: image)
+        ViewControllerStateHelper.shared.setViewControllerState(isPresented: self.isPresented)
+        let isNotCommentedButtonVC = !(self is CommentedButtonViewController)
+        if isNotCommentedButtonVC {
+            addToCommentedParent(parent: self)
+            let commentedViewTool = CommentedViewTool.sharedTool
+            commentedViewTool.createCommentedView(parent: self) {
+                openCommentedViewControllerWithImage() { image in
+                    openCommentedViewController(image: image)
                 }
-            } 
+            }
+        }
+    }
+
+    @objc internal func devCheck_viewDidDisappear(_ animated: Bool) {
+        self.devCheck_viewDidDisappear(animated)
+        let isNotCommentedButtonVC = !(self is CommentedButtonViewController)
+        let isNotCommentedVC = !(self is CommentedViewController)
+        if isNotCommentedVC && isNotCommentedButtonVC {
+            ViewControllerStateHelper.shared.setViewControllerState(isPresented: false)
+            removeFromCommentedParent(parent: self)
         }
     }
 }
