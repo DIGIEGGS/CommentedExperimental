@@ -37,26 +37,27 @@ class CommentedButton: UIView {
     private func createViews() {
         self.backgroundColor = UIColor.green
     }
-    
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
         self.lastPosition = (touch?.location(in: self.backGroundView))!
     }
-    
+
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else {
             return
         }
         let currentLocation = touch.location(in: self.backGroundView)
-        let yValue = ViewControllerStateHelper.shared.getViewControllerState() ? currentLocation.y + (UIScreen.main.bounds.height - backGroundView.frame.height) : currentLocation.y
+        let yValue = ViewControllerStateHelper.shared.getViewControllerState() ? currentLocation.y + (UIScreen.main.bounds.height - self.backGroundView.frame.height) : currentLocation.y
         let newLocation = CGPoint(x: currentLocation.x, y: yValue)
         if newLocation.x <= 25 || newLocation.x > UIScreen.main.bounds.size.width - 25 ||
-            newLocation.y <= 25 || newLocation.y >= UIScreen.main.bounds.size.height - 25 {
+            newLocation.y <= 25 || newLocation.y >= UIScreen.main.bounds.size.height - 25
+        {
             return
         }
         self.superview!.center = newLocation
     }
-    
+
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
         let currentLocation: CGPoint = (touch?.location(in: self.backGroundView))!
@@ -65,18 +66,18 @@ class CommentedButton: UIView {
                 delegate.commentedButtonPressed()
             }
         }
-        adjustPosition(CurrentPosition: currentLocation)
+        self.adjustPosition(CurrentPosition: currentLocation)
     }
-    
+
     private func adjustPosition(CurrentPosition currentPosition: CGPoint) {
         let leftDistance = currentPosition.x
         let rightDistance = UIScreen.main.bounds.size.width - currentPosition.x
         let topDistance = currentPosition.y
         let bottomDistance = UIScreen.main.bounds.size.height - currentPosition.y
-        
+
         let miniDistance = leftDistance
         var director = CommentedButtonPosition.Left
-        
+
         if rightDistance < miniDistance {
             director = CommentedButtonPosition.Right
         } else if topDistance < miniDistance {

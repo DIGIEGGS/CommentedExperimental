@@ -13,7 +13,7 @@ private func swizzle(_ viewController: UIViewController.Type) {
         (#selector(viewController.viewDidAppear(_:)),
          #selector(viewController.devCheck_viewDidAppear(_:))),
         (#selector(viewController.viewDidDisappear(_:)),
-         #selector(viewController.devCheck_viewWillDisappear(_:)))
+         #selector(viewController.devCheck_viewDidDisappear(_:)))
     ]
 
     for (original, swizzled) in swizzlers {
@@ -92,11 +92,11 @@ extension UIViewController {
     @objc internal func devCheck_viewDidAppear(_ animated: Bool) {
         self.devCheck_viewDidAppear(animated)
         ViewControllerStateHelper.shared.setViewControllerState(isPresented: self.isPresented)
-        let isAppsVC = !(self is CommentedButtonViewController)
-        if isAppsVC {
+        let isNotCommentedButtonVC = !(self is CommentedButtonViewController)
+        if isNotCommentedButtonVC {
             addToCommentedParent(parent: self)
-            let floatView = CommentedViewTool.sharedTool
-            floatView.createCommentedView(parent: self) {
+            let commentedViewTool = CommentedViewTool.sharedTool
+            commentedViewTool.createCommentedView(parent: self) {
                 openCommentedViewControllerWithImage() { image in
                     openCommentedViewController(image: image)
                 }
@@ -104,10 +104,11 @@ extension UIViewController {
         }
     }
 
-    @objc internal func devCheck_viewWillDisappear(_ animated: Bool) {
-        self.devCheck_viewWillDisappear(animated)
-        let isAppsVC = !(self is CommentedButtonViewController)
-        if isAppsVC {
+    @objc internal func devCheck_viewDidDisappear(_ animated: Bool) {
+        self.devCheck_viewDidDisappear(animated)
+        let isNotCommentedButtonVC = !(self is CommentedButtonViewController)
+        let isNotCommentedVC = !(self is CommentedViewController)
+        if isNotCommentedVC && isNotCommentedButtonVC {
             ViewControllerStateHelper.shared.setViewControllerState(isPresented: false)
             removeFromCommentedParent(parent: self)
         }
