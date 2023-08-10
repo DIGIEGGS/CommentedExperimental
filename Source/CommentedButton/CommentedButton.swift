@@ -77,7 +77,17 @@ class CommentedButton: UIView {
 
         let miniDistance = leftDistance
         var director = CommentedButtonPosition.Left
-
+        
+        let topPadding = (window?.safeAreaInsets.top)!
+        let bottomPadding = (window?.safeAreaInsets.bottom)!
+        var locationY = currentPosition.y
+        let mainScreenHeight = UIScreen.main.bounds.size.height
+        if locationY.isLess(than: topPadding) {
+              locationY = topPadding
+        } else if !locationY.isLess(than: mainScreenHeight - self.superview!.frame.size.height - bottomPadding) {
+            locationY = mainScreenHeight - self.superview!.frame.size.height - bottomPadding
+            }
+        
         if rightDistance < miniDistance {
             director = CommentedButtonPosition.Right
         } else if topDistance < miniDistance {
@@ -88,19 +98,19 @@ class CommentedButton: UIView {
         switch director {
         case .Left:
             UIView.animate(withDuration: 0.25) {
-                self.superview!.center = CGPoint(x: self.superview!.frame.size.width * 0.5, y: currentPosition.y)
+                self.superview!.center = CGPoint(x: self.superview!.frame.size.width * 0.5, y: locationY)
             }
         case .Right:
             UIView.animate(withDuration: 0.25) {
-                self.superview!.center = CGPoint(x: UIScreen.main.bounds.size.width - self.superview!.frame.size.width * 0.5, y: currentPosition.y)
+                self.superview!.center = CGPoint(x: UIScreen.main.bounds.size.width - self.superview!.frame.size.width * 0.5, y: locationY)
             }
         case .Top:
             UIView.animate(withDuration: 0.25) {
-                self.superview!.center = CGPoint(x: currentPosition.x, y: self.superview!.frame.size.height * 0.5)
+                self.superview!.center = CGPoint(x: currentPosition.x, y: (self.superview!.frame.size.height * 0.5) + topPadding)
             }
         case .Bottom:
             UIView.animate(withDuration: 0.25) {
-                self.superview!.center = CGPoint(x: currentPosition.x, y: UIScreen.main.bounds.size.height - self.superview!.frame.size.height * 0.5)
+                self.superview!.center = CGPoint(x: currentPosition.x, y: (UIScreen.main.bounds.size.height - self.superview!.frame.size.height * 0.5) - bottomPadding)
             }
         }
     }
