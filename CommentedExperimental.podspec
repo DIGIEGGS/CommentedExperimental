@@ -21,16 +21,16 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/81802412/CommentedExperimental'
+  s.homepage         = 'https://github.com/DIGIEGGS/CommentedExperimental'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { '81802412' => 'canugurgedik@gmail.com' }
-  s.source           = { :git => 'https://github.com/81802412/CommentedExperimental.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/DIGIEGGS/CommentedExperimental', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '12.0'
 
-  s.source_files = 'CommentedExperimental/Classes/**/*'
+  s.source_files = 'Source/**/*'
   
   # s.resource_bundles = {
   #   'CommentedExperimental' => ['CommentedExperimental/Assets/*.png']
