@@ -22,6 +22,9 @@ class CommentedButton: UIView {
     var backGroundView = UIView()
     var lastPosition = CGPoint()
     var delegate: CommentedButtonProtocol?
+    
+    let screenWidth = UIScreen.main.bounds.size.width
+    let screenHeight = UIScreen.main.bounds.size.height
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -48,7 +51,7 @@ class CommentedButton: UIView {
             return
         }
         let currentLocation = touch.location(in: self.backGroundView)
-        let yValue = ViewControllerStateHelper.shared.getViewControllerState() ? currentLocation.y + (UIScreen.main.bounds.height - self.backGroundView.frame.height) : currentLocation.y
+        let yValue = calculateYLocation(currentYLocation: currentLocation.y)
         let newLocation = CGPoint(x: currentLocation.x, y: yValue)
         if newLocation.x <= 25 || newLocation.x > UIScreen.main.bounds.size.width - 25 ||
             newLocation.y <= 25 || newLocation.y >= UIScreen.main.bounds.size.height - 25
@@ -56,6 +59,16 @@ class CommentedButton: UIView {
             return
         }
         self.superview!.center = newLocation
+    }
+    
+    private func calculateYLocation(currentYLocation: CGFloat) -> CGFloat {
+        let state = ViewControllerStateHelper.shared.getViewControllerState()
+        let backGroundViewHeight = self.backGroundView.frame.height
+        if state {
+            return currentYLocation + (screenHeight - backGroundViewHeight)
+        } else {
+            return currentYLocation
+        }
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -70,24 +83,32 @@ class CommentedButton: UIView {
     }
 
     private func adjustPosition(CurrentPosition currentPosition: CGPoint) {
-        let leftDistance = currentPosition.x
-        let rightDistance = UIScreen.main.bounds.size.width - currentPosition.x
-        let topDistance = currentPosition.y
-        let bottomDistance = UIScreen.main.bounds.size.height - currentPosition.y
-
-        let miniDistance = leftDistance
-        var director = CommentedButtonPosition.Left
-        
+        let window = UIApplication.shared.windows.first
         let topPadding = (window?.safeAreaInsets.top)!
         let bottomPadding = (window?.safeAreaInsets.bottom)!
-        var locationY = currentPosition.y
-        let mainScreenHeight = UIScreen.main.bounds.size.height
+        let superViewWidth = self.superview!.frame.size.width
+        let superViewHeight = self.superview!.frame.size.height
+        let leftDistance = currentPosition.x
+        let rightDistance = screenWidth - leftDistance
+        let topDistance = currentPosition.y - topPadding
+        let bottomDistance = screenHeight - topDistance - bottomPadding
+
+        var locationY = calculateYLocation(currentYLocation: currentPosition.y)
         if locationY.isLess(than: topPadding) {
-              locationY = topPadding
-        } else if !locationY.isLess(than: mainScreenHeight - self.superview!.frame.size.height - bottomPadding) {
-            locationY = mainScreenHeight - self.superview!.frame.size.height - bottomPadding
-            }
+            locationY = topPadding + (superViewHeight * 0.5)
+        } else if !locationY.isLess(than: screenHeight - superViewHeight - bottomPadding) {
+            locationY = screenHeight - (superViewHeight * 0.5) - bottomPadding
+        }
+
+        var locationX: CGFloat = 0
+        if leftDistance > rightDistance {
+            locationX = screenWidth - (superViewWidth * 0.5)
+        } else {
+            locationX = (superViewWidth * 0.5)
+        }
         
+        let miniDistance = leftDistance
+        var director = CommentedButtonPosition.Left
         if rightDistance < miniDistance {
             director = CommentedButtonPosition.Right
         } else if topDistance < miniDistance {
@@ -98,19 +119,27 @@ class CommentedButton: UIView {
         switch director {
         case .Left:
             UIView.animate(withDuration: 0.25) {
-                self.superview!.center = CGPoint(x: self.superview!.frame.size.width * 0.5, y: locationY)
+                self.superview!.center = CGPoint(
+                    x: locationX,
+                    y: locationY)
             }
         case .Right:
             UIView.animate(withDuration: 0.25) {
-                self.superview!.center = CGPoint(x: UIScreen.main.bounds.size.width - self.superview!.frame.size.width * 0.5, y: locationY)
+                self.superview!.center = CGPoint(
+                    x: locationX,
+                    y: locationY)
             }
         case .Top:
             UIView.animate(withDuration: 0.25) {
-                self.superview!.center = CGPoint(x: currentPosition.x, y: (self.superview!.frame.size.height * 0.5) + topPadding)
+                self.superview!.center = CGPoint(
+                    x: locationX,
+                    y: locationY)
             }
         case .Bottom:
             UIView.animate(withDuration: 0.25) {
-                self.superview!.center = CGPoint(x: currentPosition.x, y: (UIScreen.main.bounds.size.height - self.superview!.frame.size.height * 0.5) - bottomPadding)
+                self.superview!.center = CGPoint(
+                    x: locationX,
+                    y: locationY)
             }
         }
     }
