@@ -1,9 +1,9 @@
 {
   "name": "CommentedExperimental",
   "version": "0.1.0",
-  "summary": "A short description of CommentedExperimental.",
-  "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/81802412/CommentedExperimental",
+  "summary": "Experimental version of the Project Commented.",
+  "description": "This is only for debug. asda. This is only for debug This is only for debugThis is on This is only for debug",
+  "homepage": "https://github.com/DIGIEGGS/CommentedExperimental",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -12,16 +12,20 @@
     "81802412": "canugurgedik@gmail.com"
   },
   "source": {
-    "git": "https://github.com/81802412/CommentedExperimental.git",
+    "git": "https://github.com/DIGIEGGS/CommentedExperimental.git",
     "tag": "0.1.0"
   },
   "platforms": {
     "ios": "12.0"
   },
-  "source_files": "CommentedExperimental/Classes/**/*",
+  "source_files": "Source/**/*",
+  "swift_versions": [
+    "4.0"
+  ],
   "dependencies": {
     "SnapKit": [
 
     ]
-  }
+  },
+  "swift_version": "4.0"
 }

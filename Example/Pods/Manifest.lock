@@ -1,16 +1,23 @@
 PODS:
-  - CommentedExperimental (0.1.0)
+  - CommentedExperimental (0.1.0):
+    - SnapKit
+  - SnapKit (5.6.0)
 
 DEPENDENCIES:
   - CommentedExperimental (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - SnapKit
 
 EXTERNAL SOURCES:
   CommentedExperimental:
     :path: "../"
 
 SPEC CHECKSUMS:
-  CommentedExperimental: e360bbbe742ec958fe03063acf6200b0b6bc1541
+  CommentedExperimental: 5cb4a537bf3d1261f2075704a8114dc7fcfa79b7
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: e85ce72e2d12a1631ea963fdd9f59d947255b7b0
+PODFILE CHECKSUM: 2f73f0dc55438bcbc00a4cd13df8dc849b91c6be
 
 COCOAPODS: 1.12.1
