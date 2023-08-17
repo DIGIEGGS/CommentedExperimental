@@ -38,7 +38,7 @@ class CommentedButton: UIView {
             target: self,
             action: #selector(buttonLongPressed))
         longPressGesture.allowableMovement = 2
-        longPressGesture.minimumPressDuration = 1
+        longPressGesture.minimumPressDuration = 0.3
         let tapGesture = UITapGestureRecognizer(
             target: self,
             action: #selector(buttonPressed(_:)))
@@ -186,7 +186,7 @@ class CommentedButton: UIView {
                                                    buttonHeight: CGFloat,
                                                    buttonWeight: CGFloat)
     {
-        var buttonYPosition: CGFloat = yLocation - (0.5 * buttonHeight)
+        let buttonYPosition: CGFloat = yLocation - (0.5 * buttonHeight)
         var buttonXPosition: CGFloat = 0
         switch menuDirection {
         case .Left:
