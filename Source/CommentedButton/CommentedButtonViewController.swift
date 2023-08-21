@@ -13,13 +13,13 @@ import UIKit
 //}
 
 class CommentedButtonViewController: UIViewController, CommentedButtonProtocol {
-//    func hideCommentedWindow() {
-//        self.commentedWindow.isHidden = true
-//    }
-//
-//    func showCommentedWindow() {
-//        self.commentedWindow.isHidden = false
-//    }
+    func hideCommentedWindow() {
+        self.commentedWindow.isHidden = true
+    }
+
+    func showCommentedWindow() {
+        self.commentedWindow.isHidden = false
+    }
     
     func commentedMenuOpened(location: CGPoint) {
         self.commentedWindow.frame = CGRect(x: location.x, y: location.y, width: 150, height: 50)
