@@ -10,6 +10,8 @@ import SnapKit
 import UIKit
 
 class CommentedViewController: UIViewController {
+    
+    
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit

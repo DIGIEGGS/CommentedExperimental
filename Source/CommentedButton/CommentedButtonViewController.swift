@@ -7,7 +7,20 @@
 
 import UIKit
 
+//protocol CommentedButtonViewControllerDelegate {
+//    func hideCommentedWindow()
+//    func showCommentedWindow()
+//}
+
 class CommentedButtonViewController: UIViewController, CommentedButtonProtocol {
+//    func hideCommentedWindow() {
+//        self.commentedWindow.isHidden = true
+//    }
+//
+//    func showCommentedWindow() {
+//        self.commentedWindow.isHidden = false
+//    }
+    
     func commentedMenuOpened(location: CGPoint) {
         self.commentedWindow.frame = CGRect(x: location.x, y: location.y, width: 150, height: 50)
     }
@@ -40,8 +53,9 @@ class CommentedButtonViewController: UIViewController, CommentedButtonProtocol {
         self.commentedWindow.addSubview(self.commentedButton)
 
         self.commentedButton.snp.makeConstraints { make in
+//            make.top.bottom.equalToSuperview()
+//            make.width.equalTo(50)
             make.edges.equalToSuperview()
-//            make.size.equalTo(50)
         }
         self.commentedButton.delegate = self
         self.commentedWindow.makeKeyAndVisible()

@@ -27,10 +27,19 @@ class CommentedButton: UIView {
     let screenHeight = UIScreen.main.bounds.size.height
 
     private var isMenuOpen = false
+    private var menuDirection: CommentedButtonMenuDirection = .Right
     private var buttonLocation = CGPoint(x: 0, y: 100)
     private var isTouchMoving = false
+    
+    private lazy var buttonStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [buttonView,menuView])
+        stack.axis = .horizontal
+        stack.alignment = .fill
+        stack.backgroundColor = .purple
+        return stack
+    }()
 
-    lazy var buttonView: UIView = {
+    private lazy var buttonView: UIView = {
         let view = UIView()
         view.isUserInteractionEnabled = true
         view.backgroundColor = .green
@@ -47,6 +56,12 @@ class CommentedButton: UIView {
         view.addGestureRecognizer(tapGesture)
         return view
     }()
+    
+    private lazy var menuView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .cyan
+        return view
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -60,9 +75,15 @@ class CommentedButton: UIView {
     }
 
     private func createViews() {
-        self.addSubview(self.buttonView)
-        self.buttonView.snp.makeConstraints { make in
+        self.addSubview(self.buttonStackView)
+        self.buttonStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+        self.buttonView.snp.makeConstraints { make in
+            make.width.equalTo(50)
+        }
+        self.menuView.snp.makeConstraints { make in
+            make.width.equalTo(100)
         }
         self.backgroundColor = UIColor.green
     }
@@ -93,11 +114,21 @@ class CommentedButton: UIView {
 
     private func setMenuAsOpened() {
         self.isMenuOpen = true
+        menuView.isHidden = !isMenuOpen
         self.buttonView.backgroundColor = .orange
+        switch menuDirection {
+        case .Left:
+            buttonStackView.removeArrangedSubview(menuView)
+            buttonStackView.insertArrangedSubview(menuView, at: 0)
+        case .Right:
+            buttonStackView.removeArrangedSubview(menuView)
+            buttonStackView.addArrangedSubview(menuView)
+        }
     }
 
     private func setMenuAsClosed() {
         self.isMenuOpen = false
+        menuView.isHidden = !isMenuOpen
         self.buttonView.backgroundColor = .green
     }
 
@@ -112,6 +143,7 @@ class CommentedButton: UIView {
             return
         }
         let currentLocation = touch.location(in: self.backGroundView)
+        self.closeMenuWhileMoving(location: currentLocation)
         let yValue = self.calculateYLocation(currentYLocation: currentLocation.y)
         let newLocation = CGPoint(x: currentLocation.x, y: yValue)
         let superViewHalfWidth = self.superview!.frame.size.width / 2.0
@@ -151,7 +183,6 @@ class CommentedButton: UIView {
         let rightDistance = self.screenWidth - leftDistance
         let topDistance = currentPosition.y - topPadding
         let bottomDistance = self.screenHeight - topDistance - bottomPadding
-
         var locationY = self.calculateYLocation(currentYLocation: currentPosition.y)
         if locationY.isLess(than: topPadding) {
             locationY = topPadding + (superViewHeight * 0.5)
@@ -181,6 +212,20 @@ class CommentedButton: UIView {
         }
     }
 
+    private func closeMenuWhileMoving(location: CGPoint) {
+        let superViewHalfWidth = self.superview!.frame.size.width / 2.0
+        if self.isMenuOpen {
+            if ((location.x - superViewHalfWidth) >= 20 &&
+                self.menuDirection == .Right) ||
+                ((location.x <= (self.screenWidth - superViewHalfWidth - 20)) &&
+                    self.menuDirection == .Left)
+            {
+                self.setMenuAsClosed()
+                self.delegate?.commentedMenuClosed(location: self.buttonLocation)
+            }
+        }
+    }
+
     private func setButtonLocationForMenuPlacement(yLocation: CGFloat,
                                                    menuDirection: CommentedButtonMenuDirection,
                                                    buttonHeight: CGFloat,
@@ -199,5 +244,6 @@ class CommentedButton: UIView {
             buttonXPosition = 0
         }
         self.buttonLocation = CGPoint(x: buttonXPosition, y: buttonYPosition)
+        self.menuDirection = menuDirection
     }
 }
