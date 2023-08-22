@@ -53,8 +53,6 @@ class CommentedButtonViewController: UIViewController, CommentedButtonProtocol {
         self.commentedWindow.addSubview(self.commentedButton)
 
         self.commentedButton.snp.makeConstraints { make in
-//            make.top.bottom.equalToSuperview()
-//            make.width.equalTo(50)
             make.edges.equalToSuperview()
         }
         self.commentedButton.delegate = self

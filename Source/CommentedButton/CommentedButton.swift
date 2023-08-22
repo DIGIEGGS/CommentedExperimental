@@ -35,7 +35,7 @@ class CommentedButton: UIView {
         let stack = UIStackView(arrangedSubviews: [buttonView,menuView])
         stack.axis = .horizontal
         stack.alignment = .fill
-        stack.backgroundColor = .purple
+        stack.distribution = .fill
         return stack
     }()
 
@@ -60,6 +60,7 @@ class CommentedButton: UIView {
     private lazy var menuView: UIView = {
         let view = UIView()
         view.backgroundColor = .cyan
+        view.isHidden = !isMenuOpen
         return view
     }()
 
@@ -80,10 +81,11 @@ class CommentedButton: UIView {
             make.edges.equalToSuperview()
         }
         self.buttonView.snp.makeConstraints { make in
-            make.width.equalTo(50)
+            make.top.bottom.equalToSuperview()
         }
         self.menuView.snp.makeConstraints { make in
-            make.width.equalTo(100)
+            make.width.equalTo(buttonView.snp.width).multipliedBy(2)
+            make.height.equalTo(buttonView.snp.height)
         }
         self.backgroundColor = UIColor.green
     }

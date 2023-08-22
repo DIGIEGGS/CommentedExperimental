@@ -47,8 +47,9 @@ class CommentedViewController: UIViewController {
         self.view.addSubview(self.closeButton)
         self.imageView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            make.leading.trailing.equalToSuperview().inset(40)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).inset(80)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.8)
         }
         self.closeButton.snp.makeConstraints { make in
             make.width.height.equalTo(40)
