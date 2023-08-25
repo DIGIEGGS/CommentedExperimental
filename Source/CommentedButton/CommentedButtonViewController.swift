@@ -7,7 +7,28 @@
 
 import UIKit
 
+//protocol CommentedButtonViewControllerDelegate {
+//    func hideCommentedWindow()
+//    func showCommentedWindow()
+//}
+
 class CommentedButtonViewController: UIViewController, CommentedButtonProtocol {
+    func hideCommentedWindow() {
+        self.commentedWindow.isHidden = true
+    }
+
+    func showCommentedWindow() {
+        self.commentedWindow.isHidden = false
+    }
+    
+    func commentedMenuOpened(location: CGPoint) {
+        self.commentedWindow.frame = CGRect(x: location.x, y: location.y, width: 150, height: 50)
+    }
+
+    func commentedMenuClosed(location: CGPoint) {
+        self.commentedWindow.frame = CGRect(x: location.x, y: location.y, width: 50, height: 50)
+    }
+
     var commentedButtonCallBack: (() -> ())?
 
     func commentedButtonPressed() {
@@ -16,9 +37,7 @@ class CommentedButtonViewController: UIViewController, CommentedButtonProtocol {
         }
     }
 
-    lazy var commentedButton: CommentedButton = {
-        return CommentedButton.init(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-    }()
+    lazy var commentedButton: CommentedButton = .init(frame: CGRect.zero)
 
     lazy var commentedWindow: UIWindow = {
         var tempWindow = UIWindow()
@@ -32,6 +51,10 @@ class CommentedButtonViewController: UIViewController, CommentedButtonProtocol {
         super.viewDidLoad()
         self.view.frame = CGRect.zero
         self.commentedWindow.addSubview(self.commentedButton)
+
+        self.commentedButton.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         self.commentedButton.delegate = self
         self.commentedWindow.makeKeyAndVisible()
     }

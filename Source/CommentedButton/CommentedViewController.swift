@@ -16,7 +16,7 @@ class CommentedViewController: UIViewController {
         imageView.backgroundColor = .cyan
         return imageView
     }()
-    
+
     private lazy var closeButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .gray
@@ -24,35 +24,42 @@ class CommentedViewController: UIViewController {
         button.addTarget(self, action: #selector(closeVC), for: .touchUpInside)
         return button
     }()
-    
+
     init(image: UIImage?) {
         super.init(nibName: nil, bundle: nil)
+        CommentedViewTool.sharedTool.hideCommentedButton()
         self.imageView.image = image
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     @objc func closeVC() {
         self.dismiss(animated: true)
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBlue
-        self.view.addSubview(imageView)
-        self.view.addSubview(closeButton)
-        imageView.snp.makeConstraints { make in
+        self.view.addSubview(self.imageView)
+        self.view.addSubview(self.closeButton)
+        self.imageView.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            make.leading.trailing.equalToSuperview().inset(40)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).inset(80)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.8)
         }
-        closeButton.snp.makeConstraints { make in
+        self.closeButton.snp.makeConstraints { make in
             make.width.height.equalTo(40)
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             make.right.equalToSuperview()
         }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        CommentedViewTool.sharedTool.showCommentedButton()
     }
 }

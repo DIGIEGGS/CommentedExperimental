@@ -51,7 +51,7 @@ private func openCommentedViewController(image: UIImage?) {
 private let appName: String = (Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String)!
 
 private func addToCommentedParent(parent: UIViewController) {
-    if parent.debugDescription.contains(appName) {
+    if parent.debugDescription.contains(appName) || parent.debugDescription.contains("UINavigationController") {
         commentedParents.append(parent)
     }
 }

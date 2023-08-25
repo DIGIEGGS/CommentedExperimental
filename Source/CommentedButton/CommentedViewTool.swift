@@ -10,17 +10,17 @@ import UIKit
 class CommentedViewTool: NSObject {
     static let sharedTool = CommentedViewTool()
     override private init() {}
-    
+
     override func copy() -> Any {
         return self
     }
-    
+
     override func mutableCopy() -> Any {
         return self
     }
-    
+
     lazy var commentedButtonVC: CommentedButtonViewController = .init()
-    
+
     func createCommentedView(parent target: UIViewController, pressedCallBack callBackHandle: @escaping () -> Void) {
         target.addChildViewController(self.commentedButtonVC)
         target.view.addSubview(self.commentedButtonVC.view)
@@ -28,5 +28,13 @@ class CommentedViewTool: NSObject {
         self.commentedButtonVC.commentedButtonCallBack = {
             callBackHandle()
         }
+    }
+
+    func hideCommentedButton() {
+        self.commentedButtonVC.hideCommentedWindow()
+    }
+
+    func showCommentedButton() {
+        self.commentedButtonVC.showCommentedWindow()
     }
 }
